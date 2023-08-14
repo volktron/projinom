@@ -1,0 +1,16 @@
+{
+    "name": "volktron/projinom",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Volktron\\Projinom\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Henrik Volckmer",
+            "email": "henrik.volckmer@gmail.com"
+        }
+    ],
+    "require": {}
+}
