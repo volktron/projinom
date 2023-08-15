@@ -8,6 +8,7 @@ class App
     protected string $sourcePath;
     protected string $distPath;
 
+    protected array $versionDirectories = [];
     protected array $output = [
         'versions' => []
     ];
@@ -40,10 +41,10 @@ class App
 
     protected function generatePages(): void
     {
-        $version_directories = scandir($this->sourcePath . DIRECTORY_SEPARATOR . $this->config['versions_directory']);
-        $version_directories = array_filter($version_directories, fn($item) => $item !== '.' && $item !== '..');
+        $versionDirectories = scandir($this->sourcePath . DIRECTORY_SEPARATOR . $this->config['versions_directory']);
+        $this->versionDirectories = array_filter($versionDirectories, fn($item) => $item !== '.' && $item !== '..');
 
-        foreach($version_directories as $version_directory) {
+        foreach($this->versionDirectories as $version_directory) {
             $this->generateVersionDocument($version_directory);
         }
 
@@ -51,7 +52,7 @@ class App
         $this->writeFiles();
     }
 
-    protected function writeFiles()
+    protected function writeFiles(): void
     {
         foreach($this->output['versions'] as $version => $html) {
             file_put_contents(
@@ -63,7 +64,6 @@ class App
 
     protected function generateVersionDocument(string $version): void
     {
-        $config = $this->config;
         ob_start();
         require __DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'page.php';
         $html = ob_get_contents();

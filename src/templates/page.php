@@ -2,7 +2,7 @@
 <html lang="en" data-bs-theme="dark">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CoPHPee - A lightweight PHP framework</title>
+    <title><?=$this->config['name']?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <style>
         .sidebar {
@@ -25,29 +25,28 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">CoPHPee</a>
+                <a class="navbar-brand" href="#"><?=$this->config['name']?></a>
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    0.1
+                                    <?=$version?>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">0.1</a></li>
+                                    <?php foreach($this->versionDirectories as $outputVersion) { ?>
+                                        <li><a class="dropdown-item" href="<?=$outputVersion?>.html"><?=$outputVersion?></a></li>
+                                    <?php } ?>
                                 </ul>
                             </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Github</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Blog</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Other</a>
-                        </li>
+
+                        <?php foreach($this->config['header_links'] as $header_link) { ?>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="<?=$header_link['url']?>"><?=$header_link['label']?></a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
 
