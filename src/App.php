@@ -54,6 +54,8 @@ class App
 
     protected function generateVersionDocument(string $version): void
     {
+        $parsedown = new \Parsedown();
+
         $versionPath = $this->sourcePath . DIRECTORY_SEPARATOR . $this->config['versions_directory'];
         $versionPath .= DIRECTORY_SEPARATOR . $version . DIRECTORY_SEPARATOR;
         $versionIndexPath = $versionPath . 'index.php';
@@ -64,7 +66,8 @@ class App
             $versionConfig['directory'][$i]['pageContent'] = [];
             foreach($versionConfig['directory'][$i]['pages'] as $page) {
                 $contentPath = $versionPath . $versionConfig['directory'][$i]['name'] . DIRECTORY_SEPARATOR . $page . '.md';
-                $content = file_get_contents($contentPath);
+                $rawContent = file_get_contents($contentPath);
+                $content = $parsedown->parse($rawContent);
                 $versionConfig['directory'][$i]['pageContent'][$page] = $content;
             }
         }
