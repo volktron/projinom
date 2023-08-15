@@ -3,7 +3,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Volktron\\Projinom\\": "src/"
+            "Projinom\\": "src/"
         }
     },
     "authors": [
@@ -12,5 +12,6 @@
             "email": "henrik.volckmer@gmail.com"
         }
     ],
+    "bin": "projinom",
     "require": {}
 }
