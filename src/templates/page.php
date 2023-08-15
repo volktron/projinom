@@ -53,31 +53,22 @@
             </div>
         </nav>
 
-        <nav id="sidebar" class="sidebar mt-3 ms-1 ps-2">
+        <nav id="sidebar" class="sidebar ms-1 ps-2">
             <div class="mb-3">
 
                 <ul class="nav flex-column">
-                    <li>
-                        <p class="h5">Getting Started</p>
-                    </li>
-
-                    <li class="nav-item">
-                        <button class="nav-link pt-1 pb-1 active" data-bs-toggle="tab" data-bs-target="#introduction">Introduction</button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="nav-link pt-1 pb-1" data-bs-toggle="tab" data-bs-target="#setup">Setup</button>
-                    </li>
-
-                    <li>
-                        <p class="h5 mt-2">Components</p>
-                    </li>
-
-                    <li class="nav-item">
-                        <button class="nav-link pt-1 pb-1" data-bs-toggle="tab" data-bs-target="#routing">Routing</button>
-                    </li>
-                    <li class="nav-item">
-                        <button class="nav-link pt-1 pb-1" data-bs-toggle="tab" data-bs-target="#database">Database</button>
-                    </li>
+                    <?php foreach($versionConfig['directory'] as $section) { ?>
+                        <li>
+                            <p class="h5 mt-3"><?=$section['name']?></p>
+                        </li>
+                        <?php foreach($section['pages'] as $page) { ?>
+                            <li class="nav-item">
+                                <button class="nav-link pt-1 pb-1 active"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#<?=$page?>"><?=$page?></button>
+                            </li>
+                        <?php } ?>
+                    <?php } ?>
                 </ul>
             </div>
         </nav>

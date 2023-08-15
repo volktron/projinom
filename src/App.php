@@ -54,6 +54,11 @@ class App
 
     protected function generateVersionDocument(string $version): void
     {
+        $versionIndexPath = $this->sourcePath . DIRECTORY_SEPARATOR . $this->config['versions_directory'];
+        $versionIndexPath .= DIRECTORY_SEPARATOR . $version . DIRECTORY_SEPARATOR . 'index.php';
+        $versionConfig = require $versionIndexPath;
+        var_dump($versionConfig);
+
         ob_start();
         require __DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'page.php';
         $html = ob_get_contents();
