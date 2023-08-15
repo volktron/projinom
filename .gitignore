@@ -1,2 +1,7 @@
+dist
+
 # Composer
 vendor
+
+# IDE
+.idea
