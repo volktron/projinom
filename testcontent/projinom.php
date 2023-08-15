@@ -2,5 +2,12 @@
 
 return [
     'name' => 'Test Content',
-    'versions_directory' => 'versions'
+    'type' => 'documentation',
+    'versions_directory' => 'versions',
+    'header_links' => [
+        [
+            'label' => 'Github',
+            'url' => 'https://github.com/volktron/projinom'
+        ]
+    ]
 ];
