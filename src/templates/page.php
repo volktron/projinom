@@ -78,7 +78,7 @@
             <?php foreach($versionConfig['directory'] as $section) { ?>
                 <?php foreach($section['pages'] as $page) { ?>
                     <section class="tab-pane fade" id="<?=$page?>">
-                        Content
+                        <?=$section['pageContent'][$page]?>
                     </section>
                 <?php } ?>
             <?php } ?>
