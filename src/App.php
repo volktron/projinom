@@ -52,16 +52,6 @@ class App
         $this->writeFiles();
     }
 
-    protected function writeFiles(): void
-    {
-        foreach($this->output['versions'] as $version => $html) {
-            file_put_contents(
-                $this->distPath . DIRECTORY_SEPARATOR . $version . '.html',
-                $html
-            );
-        }
-    }
-
     protected function generateVersionDocument(string $version): void
     {
         ob_start();
@@ -75,6 +65,16 @@ class App
     {
         if(!is_dir($this->distPath)) {
             mkdir($this->distPath);
+        }
+    }
+
+    protected function writeFiles(): void
+    {
+        foreach($this->output['versions'] as $version => $html) {
+            file_put_contents(
+                $this->distPath . DIRECTORY_SEPARATOR . $version . '.html',
+                $html
+            );
         }
     }
 }
