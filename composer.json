@@ -1,6 +1,5 @@
 {
     "name": "volktron/projinom",
-    "version": "0.1.0",
     "license": "MIT",
     "autoload": {
         "psr-4": {
@@ -15,6 +14,7 @@
     ],
     "bin": "projinom",
     "require": {
+        "php": ">=8.2",
         "erusev/parsedown": "^1.7"
     }
 }
