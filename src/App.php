@@ -72,10 +72,16 @@ class App
             }
         }
 
-        ob_start();
-        require __DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'page.php';
-        $html = ob_get_contents();
-        ob_end_clean();
+        $template = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'page.twig');
+        $twig = new \Twig\Environment(new \Twig\Loader\ArrayLoader(['template' => $template]));
+
+        $html = $twig->load('template')->render([
+            'config' => $this->config,
+            'version' => $version,
+            'versionConfig' => $versionConfig,
+            'versionDirectories' => $this->versionDirectories,
+        ]);
+
         $this->output['versions'][$version] = $html;
     }
 
