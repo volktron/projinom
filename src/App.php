@@ -2,8 +2,13 @@
 
 namespace Projinom;
 
+use Twig\Environment;
+use Twig\Loader\ArrayLoader;
+
 class App
 {
+    protected array $args;
+    protected string $command;
     protected array $config;
     protected string $sourcePath;
     protected string $distPath;
@@ -15,28 +20,45 @@ class App
 
     public function __construct()
     {
-        $args = $_SERVER['argv'];
-        $this->sourcePath = $args[1] ?? '';
-        $this->distPath = $args[2] ?? '';
+        $this->args = $_SERVER['argv'];
+        $this->command = $this->args[1] ?? '';
+
+        $this->processCommand();
+    }
+
+    protected function processCommand(): bool
+    {
+        return match($this->command) {
+            'build' => $this->build(),
+            default => true
+        };
+    }
+
+    protected function build()
+    {
+        $this->sourcePath = $this->args[2] ?? '';
+        $this->distPath = $this->args[3] ?? '';
 
         if(!is_dir($this->sourcePath)) {
             echo 'Invalid Source Path';
-            return;
+            return false;
         }
 
         if(empty($this->distPath)) {
             echo 'Invalid Distribution Path';
-            return;
+            return false;
         }
 
         $configPath = $this->sourcePath . DIRECTORY_SEPARATOR . 'projinom.php';
         if(!file_exists($configPath)) {
             echo 'projinom.php not found';
-            return;
+            return false;
         }
 
         $this->config = require $configPath;
         $this->generatePages();
+
+        return true;
     }
 
     protected function generatePages(): void
@@ -73,7 +95,7 @@ class App
         }
 
         $template = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'page.twig');
-        $twig = new \Twig\Environment(new \Twig\Loader\ArrayLoader(['template' => $template]));
+        $twig = new Environment(new ArrayLoader(['template' => $template]));
 
         $html = $twig->load('template')->render([
             'config' => $this->config,

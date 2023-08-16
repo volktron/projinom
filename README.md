@@ -7,7 +7,7 @@ similar to documentation for Bootstrap.
 To run Projinom, run the following command in your project directory:
 
 ```shell
-./vendor/bin/projinom <source> <destination>
+./vendor/bin/projinom build <source> <destination>
 ```
 
 Projinom will generate files based on content in `source` and place the output in `destination`.
