@@ -19,18 +19,22 @@ class Init extends Command
 
     public function init()
     {
-        echo "\033[92mPat yourself on the back, you're actually trying to document your project!\033[0m\n\n";
+        echo $this->color("Pat yourself on the back, you're actually trying to document your project!\n\n", 'light_green');
 
         $cwd = explode(DIRECTORY_SEPARATOR, getcwd());
         $this->defaults['name'] = $cwd[count($cwd) - 1];
-        $this->name = readline("Enter the name of your project [\033[33m{$this->defaults['name']}\033[0m]:");
+        $this->name = readline(
+            "Enter the name of your project [".$this->color($this->defaults['name'], 'yellow')."]:"
+        );
         $this->name = empty($this->name) ? $this->defaults['name'] : $this->name;
 
-        $this->path = readline("Enter the path for your documentation [\033[33m{$this->defaults['path']}\033[0m]:");
+        $this->path = readline(
+            "Enter the path for your documentation [".$this->color($this->defaults['path'], 'yellow')."]:"
+        );
         $this->path = empty($this->path) ? $this->defaults['path'] : $this->path;
 
         $this->versions_directory = readline(
-            "Enter the versions directory for your documentation [\033[33m{$this->defaults['versions_directory']}\033[0m]:"
+            "Enter the versions directory for your documentation [".$this->color($this->defaults['versions_directory'], 'yellow')."]:"
         );
         $this->versions_directory = empty($this->versions_directory) ? $this->defaults['versions_directory'] : $this->versions_directory;
 
