@@ -35,6 +35,8 @@ class Init extends Command
         $this->versions_directory = empty($this->versions_directory) ? $this->defaults['versions_directory'] : $this->versions_directory;
 
         $this->ensurePathExists($this->path);
+        $this->ensurePathExists($this->path . DIRECTORY_SEPARATOR . $this->versions_directory);
+
         // Copy default template, config, index
         $templatePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'page.twig';
         file_put_contents(
