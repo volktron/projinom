@@ -2,6 +2,8 @@
 
 namespace Projinom;
 
+use Projinom\Commands\Build;
+
 class App
 {
     protected array $args;
@@ -18,7 +20,7 @@ class App
     protected function processCommand(): bool
     {
         return match($this->command) {
-            'build' => (new DocBuilder($this->args))->build(),
+            'build' => (new Build($this->args))->build(),
             default => true
         };
     }

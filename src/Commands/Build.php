@@ -1,11 +1,11 @@
 <?php
 
-namespace Projinom;
+namespace Projinom\Commands;
 
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
-class DocBuilder
+class Build
 {
     protected array $config;
 
@@ -81,7 +81,7 @@ class DocBuilder
             }
         }
 
-        $template = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR . 'page.twig');
+        $template = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'page.twig');
         $twig = new Environment(new ArrayLoader(['template' => $template]));
 
         $html = $twig->load('template')->render([
