@@ -5,7 +5,7 @@ namespace Projinom\Commands;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
-class Build
+class Build extends Command
 {
     protected array $config;
 
@@ -16,10 +16,6 @@ class Build
     protected array $output = [
         'versions' => []
     ];
-
-    public function __construct(public array $args)
-    {
-    }
 
     public function build()
     {
