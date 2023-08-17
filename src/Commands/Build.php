@@ -53,7 +53,7 @@ class Build extends Command
             $this->generateVersionDocument($version_directory);
         }
 
-        $this->ensureDistPathExists();
+        $this->ensurePathExists($this->distPath);
         $this->writeFiles();
     }
 
@@ -88,13 +88,6 @@ class Build extends Command
         ]);
 
         $this->output['versions'][$version] = $html;
-    }
-
-    protected function ensureDistPathExists(): void
-    {
-        if(!is_dir($this->distPath)) {
-            mkdir($this->distPath);
-        }
     }
 
     protected function writeFiles(): void
