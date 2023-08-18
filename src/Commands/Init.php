@@ -10,12 +10,14 @@ class Init extends Command
     protected array $defaults = [
         'path' => 'docs',
         'type' => 'documentation',
+        'initial_version' => '1.0.0',
         'versions_directory' => 'versions'
     ];
 
     protected string $name;
     protected string $path;
     protected string $versions_directory;
+    protected string $initial_version;
 
     public function init()
     {
@@ -38,18 +40,33 @@ class Init extends Command
         );
         $this->versions_directory = empty($this->versions_directory) ? $this->defaults['versions_directory'] : $this->versions_directory;
 
+        $this->initial_version = readline(
+            "Enter the first version of the project you are creating documentation for [".$this->color($this->defaults['initial_version'], 'yellow')."]:"
+        );
+        $this->initial_version = empty($this->initial_version) ? $this->defaults['initial_version'] : $this->initial_version;
+
         $this->ensurePathExists($this->path);
         $this->ensurePathExists($this->path . DIRECTORY_SEPARATOR . $this->versions_directory);
+        $this->ensurePathExists($this->path . DIRECTORY_SEPARATOR . $this->versions_directory . DIRECTORY_SEPARATOR . $this->initial_version);
 
         // Copy default template, config, index
-        $templatePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'page.twig';
+        $templatePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
         file_put_contents(
             $this->path . DIRECTORY_SEPARATOR . 'page.twig',
-            file_get_contents($templatePath)
+            file_get_contents($templatePath . 'page.twig')
         );
 
-        $template = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'projinom.php.twig');
-        $twig = new Environment(new ArrayLoader(['template' => $template]));
+        $indexTemplate = file_get_contents($templatePath . 'version_index.php.twig');
+        $twig = new Environment(new ArrayLoader(['template' => $indexTemplate]));
+
+        $projinom = $twig->load('template')->render([]);
+
+        $versionsPath = $this->path . DIRECTORY_SEPARATOR . $this->versions_directory . DIRECTORY_SEPARATOR;
+        $initialVersionPath = $versionsPath . $this->initial_version . DIRECTORY_SEPARATOR;
+        file_put_contents($initialVersionPath . 'index.php', $projinom);
+
+        $projinomTemplate = file_get_contents($templatePath . 'projinom.php.twig');
+        $twig = new Environment(new ArrayLoader(['template' => $projinomTemplate]));
 
         $projinom = $twig->load('template')->render([
             'name' => $this->name,
