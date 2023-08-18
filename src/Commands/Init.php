@@ -65,6 +65,17 @@ class Init extends Command
         $initialVersionPath = $versionsPath . $this->initial_version . DIRECTORY_SEPARATOR;
         file_put_contents($initialVersionPath . 'index.php', $projinom);
 
+        $indexConfig = require $initialVersionPath . 'index.php';
+        foreach($indexConfig['directory'] as $section) {
+            $this->ensurePathExists($initialVersionPath . DIRECTORY_SEPARATOR . $section['name']);
+            foreach($section['pages'] as $page) {
+                file_put_contents(
+                    $initialVersionPath . DIRECTORY_SEPARATOR . $section['name'] . DIRECTORY_SEPARATOR . $page . '.md',
+                    "# $page"
+                );
+            }
+        }
+
         $projinomTemplate = file_get_contents($templatePath . 'projinom.php.twig');
         $twig = new Environment(new ArrayLoader(['template' => $projinomTemplate]));
 
@@ -75,6 +86,8 @@ class Init extends Command
         ]);
 
         file_put_contents($this->path . DIRECTORY_SEPARATOR . 'projinom.php', $projinom);
+
+        echo "\nDocumentation successfully initialized under ".$this->color($this->path, 'light_green')."\n";
         return true;
     }
 }
