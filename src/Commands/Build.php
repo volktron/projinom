@@ -77,7 +77,14 @@ class Build extends Command
             }
         }
 
-        $template = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'page.twig');
+        $sourceTemplatePath = $this->sourcePath . DIRECTORY_SEPARATOR . 'page.twig';
+        if(file_exists($sourceTemplatePath)) {
+            echo 'Using template found in ' . $this->color($this->sourcePath, 'yellow');
+            $template = file_get_contents($sourceTemplatePath);
+        } else {
+            echo 'No template found in ' . $this->color($this->sourcePath, 'yellow') . ', using default template.';
+            $template = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'page.twig');
+        }
         $twig = new Environment(new ArrayLoader(['template' => $template]));
 
         $html = $twig->load('template')->render([
