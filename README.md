@@ -4,6 +4,20 @@ It parses a directory of markdown files and creates a clean static site
 similar to documentation for Bootstrap.
 
 # Usage
+```shell
+composer require volktron/projinom
+```
+
+## Setup
+To create a new Projinom set of documentation, run the following command:
+
+```shell
+./vendor/bin/projinom init <destination>
+```
+
+Follow instructions on screen.
+
+## Build
 To run Projinom, run the following command in your project directory:
 
 ```shell
