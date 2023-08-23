@@ -9,5 +9,6 @@ return [
             'label' => 'Github',
             'url' => 'https://github.com/volktron/projinom'
         ]
-    ]
+    ],
+    'index' => 'index'
 ];

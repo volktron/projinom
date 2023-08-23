@@ -30,6 +30,7 @@
             right: 0;
         }
 
+        {% if mode == 'version' %}
         main {
             position: fixed;
             top: 4em;
@@ -37,20 +38,29 @@
             padding-left: 240px;
             overflow-y: scroll;
         }
+        {% else %}
+        main {
+            margin: 4em 2em 4em 2em;
+        }
+        {% endif %}
     </style>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
-                <a class="navbar-brand" href="#">{{ config.name }}</a>
+                <a class="navbar-brand" href="index.html">{{ config.name }}</a>
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ version }}
+                                    {% if version != '' %}
+                                        {{ version }}
+                                    {% else %}
+                                        Select Version
+                                    {% endif %}
                                 </button>
                                 <ul class="dropdown-menu">
                                     {% for outputVersion in versionDirectories %}
@@ -71,37 +81,43 @@
             </div>
         </nav>
 
-        <nav id="sidebar" class="sidebar ms-1 ps-2">
-            <div class="mb-3">
-                <ul class="nav flex-column">
-                    {% for section in versionConfig.directory %}
-                        <li>
-                            <p class="h5 mt-3">{{ section.name }}</p>
-                        </li>
-                        {% for page in section.pages %}
-                            <li class="nav-item">
-                                <button class="nav-link pt-1 pb-1"
-                                        data-bs-toggle="tab"
-                                        data-bs-target="#{{ page }}">{{ page }}</button>
+        {% if mode == 'version' %}
+            <nav id="sidebar" class="sidebar ms-1 ps-2">
+                <div class="mb-3">
+                    <ul class="nav flex-column">
+                        {% for section in versionConfig.directory %}
+                            <li>
+                                <p class="h5 mt-3">{{ section.name }}</p>
                             </li>
+                            {% for page in section.pages %}
+                                <li class="nav-item">
+                                    <button class="nav-link pt-1 pb-1"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#{{ page }}">{{ page }}</button>
+                                </li>
+                            {% endfor %}
                         {% endfor %}
-                    {% endfor %}
-                </ul>
-            </div>
-        </nav>
+                    </ul>
+                </div>
+            </nav>
+        {% endif %}
     </header>
     <main>
-        <div class="tab-content mt-3">
-            {% for section in versionConfig.directory %}
-                {% for page in section.pages %}
-                    <section class="tab-pane fade" id="{{ page }}">
-                        <div class="container">
-                            {{ section.pageContent[page]|raw }}
-                        </div>
-                    </section>
+        {% if mode == 'version' %}
+            <div class="tab-content mt-3">
+                {% for section in versionConfig.directory %}
+                    {% for page in section.pages %}
+                        <section class="tab-pane fade" id="{{ page }}">
+                            <div class="container">
+                                {{ section.pageContent[page]|raw }}
+                            </div>
+                        </section>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        </div>
+            </div>
+        {% elseif mode == 'standalone' %}
+            {{ standaloneContent|raw }}
+        {% endif %}
     </main>
     <script
             src="https://code.jquery.com/jquery-3.7.0.min.js"
