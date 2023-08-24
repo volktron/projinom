@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace Projinom\Commands;
+namespace Projinom\Traits;
 
-abstract class Command
+trait OutputFormattingTrait
 {
     public array $cliColors = [
         'default' => 39,
@@ -23,17 +23,6 @@ abstract class Command
         'light_cyan' => 96,
         'white' => 97,
     ];
-
-    public function __construct(public array $args)
-    {
-    }
-
-    protected function ensurePathExists(string $path): void
-    {
-        if(!is_dir($path)) {
-            mkdir($path);
-        }
-    }
 
     protected function color(string $text, string $color): string
     {

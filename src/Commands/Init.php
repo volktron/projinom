@@ -5,7 +5,7 @@ namespace Projinom\Commands;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
-class Init extends Command
+class Init extends AbstractCommand
 {
     protected array $defaults = [
         'path' => 'docs',
