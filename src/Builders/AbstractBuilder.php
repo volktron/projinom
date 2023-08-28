@@ -12,7 +12,7 @@ abstract class AbstractBuilder
 
     protected \Parsedown $parsedown;
 
-    protected string $template;
+    protected array $template;
 
     protected array $output = [
         'versions' => []
@@ -77,28 +77,31 @@ abstract class AbstractBuilder
         $this->output['versions'][$version] = $html;
     }
 
-    protected function getTemplate(): string {
-        if(!empty($this->template)) {
-            return $this->template;
+    protected function getTemplate(string $templateName = 'page.twig'): string {
+        if(!empty($this->template[$templateName])) {
+            return $this->template[$templateName];
         }
 
-        $sourceTemplatePath = $this->sourcePath . DIRECTORY_SEPARATOR . 'page.twig';
+        var_dump($templateName);
+        $sourceTemplatePath = $this->sourcePath . DIRECTORY_SEPARATOR . $templateName;
         if(file_exists($sourceTemplatePath)) {
             echo 'Using template found in ' . $this->color($this->sourcePath, 'yellow');
-            $this->template = file_get_contents($sourceTemplatePath);
+            $this->template[$templateName] = file_get_contents($sourceTemplatePath);
         } else {
             echo 'No template found in ' . $this->color($this->sourcePath, 'yellow') . ', using default template.';
-            $this->template = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . 'page.twig');
+            $this->template[$templateName] = file_get_contents(
+                __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . $templateName
+            );
         }
 
-        return $this->template;
+        return $this->template[$templateName];
     }
 
-    protected function writeFiles(): void
+    protected function writeFiles(array $content): void
     {
-        foreach($this->output['versions'] as $version => $html) {
+        foreach($content as $page => $html) {
             file_put_contents(
-                $this->distPath . DIRECTORY_SEPARATOR . $version . '.html',
+                $this->distPath . DIRECTORY_SEPARATOR . $page . '.html',
                 $html
             );
         }
