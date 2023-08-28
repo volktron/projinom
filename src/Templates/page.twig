@@ -68,7 +68,9 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     {% for outputVersion in versionDirectories %}
-                                        <li><a class="dropdown-item" href="{{ outputVersion }}.html">{{ outputVersion }}</a></li>
+                                        {% if not config.max_versions or loop.index <= config.max_versions %}
+                                            <li><a class="dropdown-item" href="{{ outputVersion }}.html">{{ outputVersion }}</a></li>
+                                        {% endif %}
                                     {% endfor %}
                                 </ul>
                             </div>
