@@ -103,4 +103,21 @@ abstract class AbstractBuilder
             );
         }
     }
+
+    protected static function rVersionSort($left, $right): int
+    {
+        $leftPieces = explode('.', $left);
+        $rightPieces = explode('.', $right);
+
+        $numPieces = count($leftPieces);
+        for($i = 0; $i < $numPieces; $i++) {
+            if($leftPieces[$i] == ($rightPieces[$i] ?? 0)) {
+                continue;
+            }
+
+            return ($rightPieces[$i] ?? 0) <=> $leftPieces[$i];
+        }
+
+        return 0;
+    }
 }
