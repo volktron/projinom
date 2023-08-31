@@ -67,14 +67,18 @@
                                     {% endif %}
                                 </button>
                                 <ul class="dropdown-menu">
-                                    {% for outputVersion in versionDirectories %}
-                                        {% if not config.max_versions or loop.index <= config.max_versions %}
-                                            <li><a class="dropdown-item" href="{{ outputVersion }}.html">{{ outputVersion }}</a></li>
-                                        {% endif %}
+                                    {% for versions in majorVersions %}
+                                        {% for outputVersion in versions %}
+                                            {% if not config.max_versions or loop.index <= config.max_versions %}
+                                                <li><a class="dropdown-item" href="{{ outputVersion }}.html">{{ outputVersion }}</a></li>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
                                     {% endfor %}
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
+
                                     <li><a class="dropdown-item" href="versions.html">All</a></li>
                                 </ul>
                             </div>

@@ -19,6 +19,7 @@ abstract class AbstractBuilder
     ];
 
     protected array $versionDirectories = [];
+    protected array $majorVersions;
 
     public function __construct(
         public array $config,
@@ -40,7 +41,7 @@ abstract class AbstractBuilder
             'config' => $this->config,
             'mode' => 'standalone',
             'standaloneContent' => $content,
-            'versionDirectories' => $this->versionDirectories,
+            'majorVersions' => $this->majorVersions,
         ]);
 
         file_put_contents($this->distPath . DIRECTORY_SEPARATOR . $pageName . '.html', $html);
@@ -71,10 +72,54 @@ abstract class AbstractBuilder
             'mode' => 'version',
             'version' => $version,
             'versionConfig' => $versionConfig,
-            'versionDirectories' => $this->versionDirectories,
+            'majorVersions' => $this->majorVersions,
         ]);
 
         $this->output['versions'][$version] = $html;
+    }
+
+    protected function generateVersionsPage(): void
+    {
+        $twig = new Environment(new ArrayLoader([
+            'template' => $this->getTemplate(),
+            'versions' => $this->getTemplate('versions.twig')
+        ]));
+
+        $versions = $twig->load('versions')->render([
+            'config' => $this->config,
+            'majorVersions' => $this->majorVersions,
+        ]);
+
+        $html = $twig->load('template')->render([
+            'config' => $this->config,
+            'mode' => 'standalone',
+            'standaloneContent' => $versions,
+            'majorVersions' => $this->majorVersions,
+        ]);
+
+        file_put_contents($this->distPath . DIRECTORY_SEPARATOR . 'versions.html', $html);
+    }
+
+    protected function bucketVersions(array $versions, int $levels = 1, string $separator = '.'): array
+    {
+        $out = [];
+
+        foreach($versions as $version) {
+            $parts = explode($separator, $version);
+            $pointer = &$out;
+
+            for($i = 0; $i < $levels; $i++) {
+                if($i == $levels - 1) {
+                    $pointer[$parts[$i]][] = $version;
+                    break;
+                }
+
+                $pointer[$parts[$i]] ??= [];
+                $pointer = &$pointer[$parts[$i]];
+            }
+        }
+
+        return $out;
     }
 
     protected function getTemplate(string $templateName = 'page.twig'): string {
