@@ -82,13 +82,12 @@ abstract class AbstractBuilder
             return $this->template[$templateName];
         }
 
-        var_dump($templateName);
         $sourceTemplatePath = $this->sourcePath . DIRECTORY_SEPARATOR . $templateName;
         if(file_exists($sourceTemplatePath)) {
             echo 'Using template found in ' . $this->color($this->sourcePath, 'yellow');
             $this->template[$templateName] = file_get_contents($sourceTemplatePath);
         } else {
-            echo 'No template found in ' . $this->color($this->sourcePath, 'yellow') . ', using default template.';
+            echo 'No template found in ' . $this->color($this->sourcePath, 'yellow') . ", using default template.\n";
             $this->template[$templateName] = file_get_contents(
                 __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR . $templateName
             );
