@@ -3,6 +3,7 @@
 namespace Projinom;
 
 use Projinom\Commands\Build;
+use Projinom\Commands\Help;
 use Projinom\Commands\Init;
 
 class App
@@ -23,7 +24,7 @@ class App
         return match($this->command) {
             'build' => (new Build($this->args))->build(),
             'init'  => (new Init($this->args))->init(),
-            default => true
+            default  => (new Help($this->args))->displayHelp(),
         };
     }
 }
