@@ -1,0 +1,25 @@
+{
+  "name": "projinom",
+  "version": "1.0.0",
+  "description": "Packaging ecmascript and css for use in Projinom templates",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/volktron/projinom.git"
+  },
+  "author": "Henrik Volckmer",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/volktron/projinom/issues"
+  },
+  "homepage": "https://github.com/volktron/projinom#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.1",
+    "jquery": "^3.7.1",
+    "prismjs": "^1.29.0",
+    "webpack": "^5.88.2"
+  }
+}
