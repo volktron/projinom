@@ -2,7 +2,6 @@
   "name": "projinom",
   "version": "1.0.0",
   "description": "Packaging ecmascript and css for use in Projinom templates",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -17,9 +16,13 @@
   },
   "homepage": "https://github.com/volktron/projinom#readme",
   "dependencies": {
+    "babel-loader": "^9.1.3",
     "bootstrap": "^5.3.1",
     "jquery": "^3.7.1",
     "prismjs": "^1.29.0",
     "webpack": "^5.88.2"
+  },
+  "devDependencies": {
+    "webpack-cli": "^5.1.4"
   }
 }
