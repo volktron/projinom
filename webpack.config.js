@@ -7,9 +7,9 @@ const isProduction = process.env.NODE_ENV == 'production';
 const stylesHandler = 'style-loader';
 
 const config = {
-    entry: './js/projinom.js',
+    entry: './js/src/projinom.js',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'js/dist/'),
     },
     plugins: [
         // Add your plugins here
