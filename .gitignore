@@ -1,8 +1,8 @@
-dist
+/dist
 
 # Packages
-node_modules
-vendor
+/node_modules
+/vendor
 
 # IDE
-.idea
+/.idea
