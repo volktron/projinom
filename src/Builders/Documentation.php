@@ -24,6 +24,10 @@ class Documentation extends AbstractBuilder
 
         $this->writeFiles($this->output['versions']);
 
+        $projectRoot = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
+        $jsSrc = $projectRoot . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'main.js';
+        copy($jsSrc, $this->distPath . DIRECTORY_SEPARATOR . 'main.js');
+
         return true;
     }
 }
