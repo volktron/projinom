@@ -8,7 +8,7 @@ use Twig\Loader\ArrayLoader;
 class Init extends AbstractCommand
 {
     protected array $defaults = [
-        'path' => 'docs',
+        'path' => 'docsource',
         'type' => 'documentation',
         'initial_version' => '1.0.0',
         'versions_directory' => 'versions'
