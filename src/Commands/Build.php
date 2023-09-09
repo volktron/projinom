@@ -16,19 +16,12 @@ class Build extends AbstractCommand
     public function build()
     {
         $sourcePath = $this->args[2] ?? '';
-        $distPath = $this->args[3] ?? '';
+        $distPath = $this->args[3] ?? null;
 
         if(!is_dir($sourcePath)) {
             echo 'Invalid Source Path';
             return false;
         }
-
-        if(empty($distPath)) {
-            echo 'Invalid Distribution Path';
-            return false;
-        }
-
-        $this->ensurePathExists($distPath);
 
         $configPath = $sourcePath . DIRECTORY_SEPARATOR . 'projinom.php';
         if(!file_exists($configPath)) {
@@ -37,6 +30,14 @@ class Build extends AbstractCommand
         }
 
         $this->config = require $configPath;
+        $distPath ??= $this->config['dist_path'] ?? null;
+
+        if(empty($distPath)) {
+            echo 'Invalid Distribution Path';
+            return false;
+        }
+
+        $this->ensurePathExists($distPath);
 
         switch($this->config['type']) {
             case 'documentation': return (new Documentation($this->config, $sourcePath, $distPath))->generatePages();
