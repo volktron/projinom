@@ -94,6 +94,7 @@ class Init extends AbstractCommand
         ]);
 
         file_put_contents($this->sourcePath . DIRECTORY_SEPARATOR . 'projinom.php', $projinom);
+        file_put_contents($this->sourcePath . DIRECTORY_SEPARATOR . 'index.md', 'Hello, world!');
 
         echo "\nDocumentation successfully initialized under ".$this->color($this->sourcePath, 'light_green')."\n";
         return true;
