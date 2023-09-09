@@ -9,13 +9,5 @@ return [
                 'Setup'
             ]
         ],
-        [
-            'name' => 'Tutorial',
-            'pages' => [
-                'Breakfast',
-                'Lunch',
-                'Dinner'
-            ]
-        ]
     ]
 ];

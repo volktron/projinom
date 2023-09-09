@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
 return [
-    'name' => 'Test Content',
+    'name' => 'Projinom',
     'type' => 'documentation',
-
+    'dist_path' => 'docs',
     'versions_directory' => 'versions',
     'max_versions' => 3,
 
@@ -13,5 +13,6 @@ return [
             'url' => 'https://github.com/volktron/projinom'
         ]
     ],
+
     'index' => 'index'
 ];
