@@ -8,14 +8,16 @@ use Twig\Loader\ArrayLoader;
 class Init extends AbstractCommand
 {
     protected array $defaults = [
-        'path' => 'docsource',
+        'source_path' => 'docsource',
+        'dist_path' => 'docs',
         'type' => 'documentation',
         'initial_version' => '1.0.0',
         'versions_directory' => 'versions'
     ];
 
     protected string $name;
-    protected string $path;
+    protected string $sourcePath;
+    protected string $distPath;
     protected string $versions_directory;
     protected string $initial_version;
 
@@ -30,10 +32,15 @@ class Init extends AbstractCommand
         );
         $this->name = empty($this->name) ? $this->defaults['name'] : $this->name;
 
-        $this->path = readline(
-            "Enter the path for your documentation [".$this->color($this->defaults['path'], 'yellow')."]:"
+        $this->sourcePath = readline(
+            "Enter the source path for your documentation [".$this->color($this->defaults['source_path'], 'yellow')."]:"
         );
-        $this->path = empty($this->path) ? $this->defaults['path'] : $this->path;
+        $this->sourcePath = empty($this->sourcePath) ? $this->defaults['source_path'] : $this->sourcePath;
+
+        $this->distPath = readline(
+            "Enter the source path for your documentation (use ".$this->color('docs', 'green')." for github pages) [".$this->color($this->defaults['dist_path'], 'yellow')."]:"
+        );
+        $this->distPath = empty($this->distPath) ? $this->defaults['dist_path'] : $this->distPath;
 
         $this->versions_directory = readline(
             "Enter the versions directory for your documentation [".$this->color($this->defaults['versions_directory'], 'yellow')."]:"
@@ -45,14 +52,14 @@ class Init extends AbstractCommand
         );
         $this->initial_version = empty($this->initial_version) ? $this->defaults['initial_version'] : $this->initial_version;
 
-        $this->ensurePathExists($this->path);
-        $this->ensurePathExists($this->path . DIRECTORY_SEPARATOR . $this->versions_directory);
-        $this->ensurePathExists($this->path . DIRECTORY_SEPARATOR . $this->versions_directory . DIRECTORY_SEPARATOR . $this->initial_version);
+        $this->ensurePathExists($this->sourcePath);
+        $this->ensurePathExists($this->sourcePath . DIRECTORY_SEPARATOR . $this->versions_directory);
+        $this->ensurePathExists($this->sourcePath . DIRECTORY_SEPARATOR . $this->versions_directory . DIRECTORY_SEPARATOR . $this->initial_version);
 
         // Copy default template, config, index
         $templatePath = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'Templates' . DIRECTORY_SEPARATOR;
         file_put_contents(
-            $this->path . DIRECTORY_SEPARATOR . 'page.twig',
+            $this->sourcePath . DIRECTORY_SEPARATOR . 'page.twig',
             file_get_contents($templatePath . 'page.twig')
         );
 
@@ -61,7 +68,7 @@ class Init extends AbstractCommand
 
         $projinom = $twig->load('template')->render([]);
 
-        $versionsPath = $this->path . DIRECTORY_SEPARATOR . $this->versions_directory . DIRECTORY_SEPARATOR;
+        $versionsPath = $this->sourcePath . DIRECTORY_SEPARATOR . $this->versions_directory . DIRECTORY_SEPARATOR;
         $initialVersionPath = $versionsPath . $this->initial_version . DIRECTORY_SEPARATOR;
         file_put_contents($initialVersionPath . 'index.php', $projinom);
 
@@ -82,12 +89,13 @@ class Init extends AbstractCommand
         $projinom = $twig->load('template')->render([
             'name' => $this->name,
             'type' => $this->defaults['type'],
+            'dist_path' => $this->distPath,
             'versions_directory' => $this->versions_directory
         ]);
 
-        file_put_contents($this->path . DIRECTORY_SEPARATOR . 'projinom.php', $projinom);
+        file_put_contents($this->sourcePath . DIRECTORY_SEPARATOR . 'projinom.php', $projinom);
 
-        echo "\nDocumentation successfully initialized under ".$this->color($this->path, 'light_green')."\n";
+        echo "\nDocumentation successfully initialized under ".$this->color($this->sourcePath, 'light_green')."\n";
         return true;
     }
 }
