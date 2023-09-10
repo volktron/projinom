@@ -26,7 +26,9 @@ class Documentation extends AbstractBuilder
 
         $projectRoot = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
         $jsSrc = $projectRoot . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'main.js';
+        $cssSrc = $projectRoot . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'main.css';
         copy($jsSrc, $this->distPath . DIRECTORY_SEPARATOR . 'main.js');
+        copy($cssSrc, $this->distPath . DIRECTORY_SEPARATOR . 'main.css');
 
         return true;
     }
