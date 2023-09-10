@@ -53,6 +53,7 @@ main:not(.mode-version) #content {
 
 @media (width <= 750px) {
   .sidebar {
+    /* display: none; */
     position: relative;
   }
   #content {

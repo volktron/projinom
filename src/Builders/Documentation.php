@@ -30,6 +30,10 @@ class Documentation extends AbstractBuilder
         copy($jsSrc, $this->distPath . DIRECTORY_SEPARATOR . 'main.js');
         copy($cssSrc, $this->distPath . DIRECTORY_SEPARATOR . 'main.css');
 
+        if(file_exists($this->sourcePath . DIRECTORY_SEPARATOR . 'favicon.ico')) {
+            copy($this->sourcePath . DIRECTORY_SEPARATOR . 'favicon.ico', $this->distPath . DIRECTORY_SEPARATOR . 'favicon.ico');
+        }
+
         return true;
     }
 }
