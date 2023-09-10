@@ -20,10 +20,10 @@ class TwigLoader
         $this->twig = new Environment(new ArrayLoader($content));
     }
 
-    public function render(string $templateName, array $params = []): string
+    public function render(string $templateName, array $params = []): ?string
     {
         try {
-            return $this->twig->load($templateName)->render($params);
+            $out = $this->twig->load($templateName)->render($params);
         } catch (LoaderError $e) {
             echo $this->color("An error occurred while loading the template.\n", 'red');
             print_r($e->getMessage());
@@ -34,5 +34,7 @@ class TwigLoader
             echo $this->color("There is a syntax error in the template.\n", 'red');
             print_r($e->getMessage());
         }
+
+        return $out ?? null;
     }
 }
