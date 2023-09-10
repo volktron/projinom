@@ -2,6 +2,7 @@
 
 namespace Projinom\Commands;
 
+use Projinom\Helpers\TwigLoader;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
 
@@ -69,9 +70,9 @@ class Init extends AbstractCommand
         );
 
         $indexTemplate = file_get_contents($templatePath . 'version_index.php.twig');
-        $twig = new Environment(new ArrayLoader(['template' => $indexTemplate]));
+        $twig = new TwigLoader(['template' => $indexTemplate]);
 
-        $projinom = $twig->load('template')->render([]);
+        $projinom = $twig->render('template');
 
         $versionsPath = $this->sourcePath . DIRECTORY_SEPARATOR . $this->versions_directory . DIRECTORY_SEPARATOR;
         $initialVersionPath = $versionsPath . $this->initial_version . DIRECTORY_SEPARATOR;
@@ -89,9 +90,9 @@ class Init extends AbstractCommand
         }
 
         $projinomTemplate = file_get_contents($templatePath . 'projinom.php.twig');
-        $twig = new Environment(new ArrayLoader(['template' => $projinomTemplate]));
+        $twig = new TwigLoader(['template' => $projinomTemplate]);
 
-        $projinom = $twig->load('template')->render([
+        $projinom = $twig->render('template', [
             'name' => $this->name,
             'type' => $this->defaults['type'],
             'dist_path' => $this->distPath,

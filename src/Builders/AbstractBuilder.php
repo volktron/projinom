@@ -3,6 +3,7 @@
 namespace Projinom\Builders;
 
 use Parsedown;
+use Projinom\Helpers\TwigLoader;
 use Projinom\Traits\OutputFormattingTrait;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -32,13 +33,13 @@ abstract class AbstractBuilder
 
     protected function generateContentPage(string $pageName): void
     {
-        $twig = new Environment(new ArrayLoader(['template' => $this->getTemplate()]));
+        $twig = new TwigLoader(['template' => $this->getTemplate()]);
 
         $contentPath = $this->sourcePath . DIRECTORY_SEPARATOR . $pageName . '.md';
         $rawContent = file_get_contents($contentPath);
         $content = $this->parsedown->parse($rawContent);
 
-        $html = $twig->load('template')->render([
+        $html = $twig->render('template', [
             'config' => $this->config,
             'mode' => 'standalone',
             'standaloneContent' => $content,
@@ -66,9 +67,9 @@ abstract class AbstractBuilder
             }
         }
 
-        $twig = new Environment(new ArrayLoader(['template' => $this->getTemplate()]));
+        $twig = new TwigLoader(['template' => $this->getTemplate()]);
 
-        $html = $twig->load('template')->render([
+        $html = $twig->render('template', [
             'config' => $this->config,
             'mode' => 'version',
             'version' => $version,
@@ -81,17 +82,17 @@ abstract class AbstractBuilder
 
     protected function generateVersionsPage(): void
     {
-        $twig = new Environment(new ArrayLoader([
+        $twig = new TwigLoader([
             'template' => $this->getTemplate(),
             'versions' => $this->getTemplate('versions.twig')
-        ]));
+        ]);
 
-        $versions = $twig->load('versions')->render([
+        $versions = $twig->render('versions', [
             'config' => $this->config,
             'majorVersions' => $this->majorVersions,
         ]);
 
-        $html = $twig->load('template')->render([
+        $html = $twig->render('template', [
             'config' => $this->config,
             'mode' => 'standalone',
             'standaloneContent' => $versions,
