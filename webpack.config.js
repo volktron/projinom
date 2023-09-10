@@ -1,19 +1,23 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require('path');
-
 const isProduction = process.env.NODE_ENV == 'production';
 
 const stylesHandler = 'style-loader';
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = {
-    entry: './js/src/projinom.js',
+    entry: ['./js/src/projinom.js', './js/src/projinom.scss'],
     output: {
         path: path.resolve(__dirname, 'js/dist/'),
     },
     plugins: [
         // Add your plugins here
         // Learn more about plugins from https://webpack.js.org/configuration/plugins/
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: "[id].css"
+        }),
     ],
     module: {
         rules: [
@@ -27,7 +31,7 @@ const config = {
             },
             {
                 test: /\.s[ac]ss$/i,
-                use: [stylesHandler, 'css-loader', 'sass-loader'],
+                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader',],
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,

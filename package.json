@@ -20,6 +20,7 @@
     "bootstrap": "^5.3.1",
     "css-loader": "^6.8.1",
     "jquery": "^3.7.1",
+    "mini-css-extract-plugin": "^2.7.6",
     "prismjs": "^1.29.0",
     "sass": "^1.66.1",
     "sass-loader": "^13.3.2",
