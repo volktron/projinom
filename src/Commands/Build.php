@@ -13,7 +13,7 @@ class Build extends AbstractCommand
         parent::__construct($args);
     }
 
-    public function build()
+    public function build(): bool
     {
         $sourcePath = $this->args[2] ?? '';
         $distPath = $this->args[3] ?? null;
@@ -39,10 +39,9 @@ class Build extends AbstractCommand
 
         $this->ensurePathExists($distPath);
 
-        switch($this->config['type']) {
-            case 'documentation': return (new Documentation($this->config, $sourcePath, $distPath))->generatePages();
-        }
-
-        return true;
+        return match ($this->config['type']) {
+            'documentation' => (new Documentation($this->config, $sourcePath, $distPath))->generatePages(),
+            default => true,
+        };
     }
 }

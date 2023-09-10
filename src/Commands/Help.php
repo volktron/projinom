@@ -19,7 +19,7 @@ class Help extends AbstractCommand
         ],
     ];
 
-    public function displayHelp()
+    public function displayHelp(): true
     {
         $max = array_reduce($this->commands, fn($carry, $item) => max($carry, strlen($item['summary'])));
 

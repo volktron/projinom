@@ -2,6 +2,7 @@
 
 namespace Projinom\Builders;
 
+use Parsedown;
 use Projinom\Traits\OutputFormattingTrait;
 use Twig\Environment;
 use Twig\Loader\ArrayLoader;
@@ -10,7 +11,7 @@ abstract class AbstractBuilder
 {
     use OutputFormattingTrait;
 
-    protected \Parsedown $parsedown;
+    protected Parsedown $parsedown;
 
     protected array $template;
 
@@ -26,7 +27,7 @@ abstract class AbstractBuilder
         public string $sourcePath,
         public string $distPath
     ) {
-        $this->parsedown = new \Parsedown();
+        $this->parsedown = new Parsedown();
     }
 
     protected function generateContentPage(string $pageName): void

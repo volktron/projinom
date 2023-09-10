@@ -21,7 +21,7 @@ class Init extends AbstractCommand
     protected string $versions_directory;
     protected string $initial_version;
 
-    public function init()
+    public function init(): bool
     {
         echo $this->color("Pat yourself on the back, you're actually trying to document your project!\n\n", 'light_green');
 

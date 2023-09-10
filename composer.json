@@ -15,6 +15,7 @@
     "bin": "projinom",
     "require": {
         "php": ">=8.2",
+        "ext-readline": "*",
         "erusev/parsedown": "^1.7",
         "twig/twig": "^3.7"
     }
