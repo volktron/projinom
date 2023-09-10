@@ -35,7 +35,17 @@ main.mode-version {
 
 main:not(.mode-version) {
   #content {
-    margin: 4em 2em 4em 2em;
+    margin: 5em 2em 4em 2em;
     z-index: 1;
+  }
+}
+
+@media(width <= 750px) {
+  .sidebar {
+    display: none;
+  }
+
+  #content {
+    padding-left: 0 !important;
   }
 }

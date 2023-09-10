@@ -3,139 +3,98 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config.name }}</title>
-    <style>
-        .token {
-            text-shadow: none;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 3;
-        }
-
-        .sidebar {
-            position: sticky;
-            margin-top: 4em;
-            bottom: 0;
-            left: 0;
-            padding: 0 0; /* Height of navbar */
-            width: 220px;
-            clear: none;
-            z-index: 2;
-        }
-
-        {% if mode == 'version' %}
-        #content {
-            position: fixed;
-            width: 100%;
-            top: 4em;
-            bottom: 0;
-            padding-left: 240px;
-            overflow-y: scroll;
-            z-index: 1;
-        }
-        {% else %}
-        #content {
-            margin: 4em 2em 4em 2em;
-            z-index: 1;
-        }
-        {% endif %}
-    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="index.html">{{ config.name }}</a>
-                <button class="navbar-toggler" type="button"
-                        data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                        aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<header>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">{{ config.name }}</a>
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <div class="dropdown">
-                                <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {% if version != '' %}
-                                        {{ version }}
-                                    {% else %}
-                                        Docs
-                                    {% endif %}
-                                </button>
-                                <ul class="dropdown-menu">
-                                    {% for versions in majorVersions %}
-                                        {% for outputVersion in versions %}
-                                            {% if not config.max_versions or loop.index <= config.max_versions %}
-                                                <li><a class="dropdown-item" href="{{ outputVersion }}.html">{{ outputVersion }}</a></li>
-                                            {% endif %}
-                                        {% endfor %}
-
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% if version != '' %}
+                                    {{ version }}
+                                {% else %}
+                                    Docs
+                                {% endif %}
+                            </button>
+                            <ul class="dropdown-menu">
+                                {% for versions in majorVersions %}
+                                    {% for outputVersion in versions %}
+                                        {% if not config.max_versions or loop.index <= config.max_versions %}
+                                            <li><a class="dropdown-item" href="{{ outputVersion }}.html">{{ outputVersion }}</a></li>
+                                        {% endif %}
                                     {% endfor %}
 
-                                    <li><a class="dropdown-item" href="versions.html">All</a></li>
-                                </ul>
-                            </div>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                {% endfor %}
+
+                                <li><a class="dropdown-item" href="versions.html">All</a></li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    {% for headerLink in config.header_links %}
+                        <li class="nav-item">
+                            <a class="nav-link ms-2" aria-current="page" href="{{ headerLink.url }}">{{ headerLink.label }}</a>
                         </li>
-
-                        {% for headerLink in config.header_links %}
-                            <li class="nav-item">
-                                <a class="nav-link ms-2" aria-current="page" href="{{ headerLink.url }}">{{ headerLink.label }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-
+                    {% endfor %}
+                </ul>
             </div>
-        </nav>
-    </header>
-    <main>
-        {% if mode == 'version' %}
-            <nav id="sidebar" class="sidebar ms-1 ps-2">
-                <div class="mb-3">
-                    <ul class="nav flex-column">
-                        {% for section in versionConfig.directory %}
-                            <li>
-                                <p class="h5 mt-3">{{ section.name }}</p>
-                            </li>
-                            {% for page in section.pages %}
-                                <li class="nav-item">
-                                    <button class="nav-link pt-1 pb-1 pointer"
-                                            data-bs-toggle="tab"
-                                            data-bs-target="#{{ page }}">{{ page }}</button>
-                                </li>
-                            {% endfor %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </nav>
-        {% endif %}
 
-        <div id="content">
-            {% if mode == 'version' %}
-                <div class="tab-content mt-3">
+        </div>
+    </nav>
+</header>
+<main class="{% if mode == 'version' %}mode-version{% endif %}">
+    {% if mode == 'version' %}
+        <nav id="sidebar" class="sidebar ms-1 ps-2">
+            <div class="mb-3">
+                <ul class="nav flex-column">
                     {% for section in versionConfig.directory %}
+                        <li>
+                            <p class="h5 mt-3">{{ section.name }}</p>
+                        </li>
                         {% for page in section.pages %}
-                            <section class="tab-pane fade" id="{{ page }}">
-                                <div class="container">
-                                    {{ section.pageContent[page]|raw }}
-                                </div>
-                            </section>
+                            <li class="nav-item">
+                                <button class="nav-link pt-1 pb-1 pointer"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#{{ page }}">{{ page }}</button>
+                            </li>
                         {% endfor %}
                     {% endfor %}
-                </div>
-            {% elseif mode == 'standalone' %}
-                {{ standaloneContent|raw }}
-            {% endif %}
-        </div>
-    </main>
-    <script src="main.js" crossorigin="anonymous"></script>
+                </ul>
+            </div>
+        </nav>
+    {% endif %}
+
+    <div id="content">
+        {% if mode == 'version' %}
+            <div class="tab-content mt-3">
+                {% for section in versionConfig.directory %}
+                    {% for page in section.pages %}
+                        <section class="tab-pane fade" id="{{ page }}">
+                            <div class="container">
+                                {{ section.pageContent[page]|raw }}
+                            </div>
+                        </section>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% elseif mode == 'standalone' %}
+            {{ standaloneContent|raw }}
+        {% endif %}
+    </div>
+</main>
+<script src="main.js" crossorigin="anonymous"></script>
 </body>
 </html>
