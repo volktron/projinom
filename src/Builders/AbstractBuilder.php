@@ -5,8 +5,6 @@ namespace Projinom\Builders;
 use Parsedown;
 use Projinom\Helpers\TwigLoader;
 use Projinom\Traits\OutputFormattingTrait;
-use Twig\Environment;
-use Twig\Loader\ArrayLoader;
 
 abstract class AbstractBuilder
 {

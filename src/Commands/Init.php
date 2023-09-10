@@ -3,8 +3,6 @@
 namespace Projinom\Commands;
 
 use Projinom\Helpers\TwigLoader;
-use Twig\Environment;
-use Twig\Loader\ArrayLoader;
 
 class Init extends AbstractCommand
 {
