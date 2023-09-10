@@ -1,0 +1,41 @@
+.token {
+  text-shadow: none;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+}
+
+.sidebar {
+  position: sticky;
+  margin-top: 4em;
+  bottom: 0;
+  left: 0;
+  padding: 0 0; /* Height of navbar */
+  width: 220px;
+  clear: none;
+  z-index: 2;
+}
+
+main.mode-version {
+  #content {
+    position: fixed;
+    width: 100%;
+    top: 4em;
+    bottom: 0;
+    padding-left: 240px;
+    overflow-y: scroll;
+    z-index: 1;
+  }
+}
+
+main:not(.mode-version) {
+  #content {
+    margin: 4em 2em 4em 2em;
+    z-index: 1;
+  }
+}
