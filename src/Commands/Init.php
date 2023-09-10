@@ -52,6 +52,11 @@ class Init extends AbstractCommand
         );
         $this->initial_version = empty($this->initial_version) ? $this->defaults['initial_version'] : $this->initial_version;
 
+        return $this->initializeProject();
+    }
+
+    public function initializeProject(): bool
+    {
         $this->ensurePathExists($this->sourcePath);
         $this->ensurePathExists($this->sourcePath . DIRECTORY_SEPARATOR . $this->versions_directory);
         $this->ensurePathExists($this->sourcePath . DIRECTORY_SEPARATOR . $this->versions_directory . DIRECTORY_SEPARATOR . $this->initial_version);
@@ -96,7 +101,7 @@ class Init extends AbstractCommand
         file_put_contents($this->sourcePath . DIRECTORY_SEPARATOR . 'projinom.php', $projinom);
         file_put_contents($this->sourcePath . DIRECTORY_SEPARATOR . 'index.md', 'Hello, world!');
 
-        echo "\nDocumentation successfully initialized under ".$this->color($this->sourcePath, 'light_green')."\n";
+        echo "\nDocumentation successfully initialized under " . $this->color($this->sourcePath, 'light_green') . "\n";
         return true;
     }
 }
