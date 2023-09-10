@@ -6,7 +6,8 @@ return [
             'name' => 'Getting Started',
             'pages' => [
                 'Introduction',
-                'Setup'
+                'Setup',
+                'Configuration'
             ]
         ],
     ]
