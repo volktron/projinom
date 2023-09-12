@@ -15,11 +15,9 @@ class App
     {
         $this->args = $_SERVER['argv'];
         $this->command = $this->args[1] ?? '';
-
-        $this->processCommand();
     }
 
-    protected function processCommand(): bool
+    public function processCommand(): bool
     {
         return match($this->command) {
             'build' => (new Build($this->args))->build(),

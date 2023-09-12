@@ -68,13 +68,28 @@ class Init extends AbstractCommand
         );
 
         $indexTemplate = file_get_contents($templatePath . 'version_index.php.twig');
-        $twig = new TwigLoader(['template' => $indexTemplate]);
+        $projinomTemplate = file_get_contents($templatePath . 'projinom.php.twig');
+        $twig = new TwigLoader([
+            'index' => $indexTemplate,
+            'projinom' => $projinomTemplate
+        ]);
 
-        $projinom = $twig->render('template');
+        $twigs = [
+            'versionIndex' => $twig->render('index'),
+            'projinom' => $twig->render('projinom', [
+                'name' => $this->name,
+                'type' => $this->defaults['type'],
+                'dist_path' => $this->distPath,
+                'versions_directory' => $this->versions_directory
+            ])
+        ];
+
+        if($twig->hasErrored) {
+            return false;
+        }
 
         $versionsPath = $this->sourcePath . DIRECTORY_SEPARATOR . $this->versions_directory . DIRECTORY_SEPARATOR;
         $initialVersionPath = $versionsPath . $this->initial_version . DIRECTORY_SEPARATOR;
-        file_put_contents($initialVersionPath . 'index.php', $projinom);
 
         $indexConfig = require $initialVersionPath . 'index.php';
         foreach($indexConfig['directory'] as $section) {
@@ -87,17 +102,8 @@ class Init extends AbstractCommand
             }
         }
 
-        $projinomTemplate = file_get_contents($templatePath . 'projinom.php.twig');
-        $twig = new TwigLoader(['template' => $projinomTemplate]);
-
-        $projinom = $twig->render('template', [
-            'name' => $this->name,
-            'type' => $this->defaults['type'],
-            'dist_path' => $this->distPath,
-            'versions_directory' => $this->versions_directory
-        ]);
-
-        file_put_contents($this->sourcePath . DIRECTORY_SEPARATOR . 'projinom.php', $projinom);
+        file_put_contents($initialVersionPath . 'index.php', $twigs['versionIndex']);
+        file_put_contents($this->sourcePath . DIRECTORY_SEPARATOR . 'projinom.php', $twigs['projinom']);
         file_put_contents($this->sourcePath . DIRECTORY_SEPARATOR . 'index.md', 'Hello, world!');
 
         echo "\nDocumentation successfully initialized under " . $this->color($this->sourcePath, 'light_green') . "\n";

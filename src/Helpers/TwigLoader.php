@@ -14,6 +14,7 @@ class TwigLoader
     use OutputFormattingTrait;
 
     protected Environment $twig;
+    public bool $hasErrored = false;
 
     public function __construct(array $content)
     {
@@ -27,12 +28,15 @@ class TwigLoader
         } catch (LoaderError $e) {
             echo $this->color("An error occurred while loading the template.\n", 'red');
             print_r($e->getMessage());
+            $this->hasErrored = true;
         } catch (RuntimeError $e) {
             echo $this->color("An error occurred while processing the template.\n", 'red');
             print_r($e->getMessage());
+            $this->hasErrored = true;
         } catch (SyntaxError $e) {
             echo $this->color("There is a syntax error in the template.\n", 'red');
             print_r($e->getMessage());
+            $this->hasErrored = true;
         }
 
         return $out ?? null;

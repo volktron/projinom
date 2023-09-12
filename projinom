@@ -6,3 +6,4 @@ use Projinom\App;
 require_once 'vendor/autoload.php';
 
 $app = new App();
+exit((int) !$app->processCommand());
