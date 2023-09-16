@@ -15,14 +15,16 @@ class Documentation extends AbstractBuilder
         usort($this->versionDirectories, ['Projinom\Builders\AbstractBuilder', 'rVersionSort']);
         $this->majorVersions = $this->bucketVersions($this->versionDirectories);
 
-        $this->generateContentPage('index');
-        $this->generateVersionsPage();
+        $indexHtml = $this->generateContentPage('index');
+        $versionsHtml = $this->generateVersionsPage();
 
         foreach($this->versionDirectories as $version_directory) {
             $this->generateVersionDocument($version_directory);
         }
 
-        $this->writeFiles($this->output['versions']);
+        if(!$this->writeFiles([$this->output['versions'], ...['index' => $indexHtml, 'versions' => $versionsHtml]])) {
+            return false;
+        }
 
         $projectRoot = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
         $jsSrc = $projectRoot . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'main.js';

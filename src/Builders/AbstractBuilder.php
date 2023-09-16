@@ -29,7 +29,7 @@ abstract class AbstractBuilder
         $this->parsedown = new Parsedown();
     }
 
-    protected function generateContentPage(string $pageName): void
+    protected function generateContentPage(string $pageName): ?string
     {
         $twig = new TwigLoader(['template' => $this->getTemplate()]);
 
@@ -37,14 +37,12 @@ abstract class AbstractBuilder
         $rawContent = file_get_contents($contentPath);
         $content = $this->parsedown->parse($rawContent);
 
-        $html = $twig->render('template', [
+        return $twig->render('template', [
             'config' => $this->config,
             'mode' => 'standalone',
             'standaloneContent' => $content,
             'majorVersions' => $this->majorVersions,
         ]);
-
-        file_put_contents($this->distPath . DIRECTORY_SEPARATOR . $pageName . '.html', $html);
     }
 
     protected function generateVersionDocument(string $version): void
@@ -78,7 +76,7 @@ abstract class AbstractBuilder
         $this->output['versions'][$version] = $html;
     }
 
-    protected function generateVersionsPage(): void
+    protected function generateVersionsPage(): string
     {
         $twig = new TwigLoader([
             'template' => $this->getTemplate(),
@@ -90,14 +88,12 @@ abstract class AbstractBuilder
             'majorVersions' => $this->majorVersions,
         ]);
 
-        $html = $twig->render('template', [
+        return $twig->render('template', [
             'config' => $this->config,
             'mode' => 'standalone',
             'standaloneContent' => $versions,
             'majorVersions' => $this->majorVersions,
         ]);
-
-        file_put_contents($this->distPath . DIRECTORY_SEPARATOR . 'versions.html', $html);
     }
 
     protected function bucketVersions(array $versions, int $levels = 1, string $separator = '.'): array
@@ -142,14 +138,20 @@ abstract class AbstractBuilder
         return $this->template[$templateName];
     }
 
-    protected function writeFiles(array $content): void
+    protected function writeFiles(array $content): bool
     {
+        if(in_array(null, $content)) {
+            return false;
+        }
+
         foreach($content as $page => $html) {
             file_put_contents(
                 $this->distPath . DIRECTORY_SEPARATOR . $page . '.html',
                 $html
             );
         }
+
+        return true;
     }
 
     protected static function rVersionSort($left, $right): int
