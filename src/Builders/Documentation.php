@@ -29,11 +29,17 @@ class Documentation extends AbstractBuilder
         $projectRoot = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..';
         $jsSrc = $projectRoot . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'main.js';
         $cssSrc = $projectRoot . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR . 'main.css';
-        copy($jsSrc, $this->distPath . DIRECTORY_SEPARATOR . 'main.js');
-        copy($cssSrc, $this->distPath . DIRECTORY_SEPARATOR . 'main.css');
+
+        $result = copy($jsSrc, $this->distPath . DIRECTORY_SEPARATOR . 'main.js');
+        $result &= copy($cssSrc, $this->distPath . DIRECTORY_SEPARATOR . 'main.css');
 
         if(file_exists($this->sourcePath . DIRECTORY_SEPARATOR . 'favicon.ico')) {
-            copy($this->sourcePath . DIRECTORY_SEPARATOR . 'favicon.ico', $this->distPath . DIRECTORY_SEPARATOR . 'favicon.ico');
+            $result &= copy($this->sourcePath . DIRECTORY_SEPARATOR . 'favicon.ico', $this->distPath . DIRECTORY_SEPARATOR . 'favicon.ico');
+        }
+
+        if(!$result) {
+            echo $this->color("Something went wrong while copying precompiled resources.\n", 'red');
+            return false;
         }
 
         return true;
