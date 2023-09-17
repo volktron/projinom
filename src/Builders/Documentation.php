@@ -22,7 +22,7 @@ class Documentation extends AbstractBuilder
             $this->generateVersionDocument($version_directory);
         }
 
-        if(!$this->writeFiles([$this->output['versions'], ...['index' => $indexHtml, 'versions' => $versionsHtml]])) {
+        if(!$this->writeFiles([...$this->output['versions'], ...['index' => $indexHtml, 'versions' => $versionsHtml]])) {
             return false;
         }
 
