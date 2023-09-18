@@ -48,4 +48,4 @@ return [
 ```
 
 Each element in a `pages` array also corresponds to a markdown file,
-e.g. `Breakfast` will tell Projinom to look for a `Breakfast.md`. 
+e.g. `Breakfast` will tell Projinom to look for a file named `Breakfast.md`. 

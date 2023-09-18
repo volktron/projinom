@@ -10,5 +10,13 @@ return [
                 'Configuration'
             ]
         ],
+        [
+            'name' => 'Content',
+            'pages' => [
+                'Adding a Section',
+                'Markdown',
+                'Syntax Highlighting'
+            ]
+        ],
     ]
 ];

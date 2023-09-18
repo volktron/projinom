@@ -67,6 +67,24 @@
                                             data-bs-toggle="tab"
                                             data-bs-target="#Configuration">Configuration</button>
                                 </li>
+                                                                                <li>
+                                <p class="h5 mt-3">Content</p>
+                            </li>
+                                                            <li class="nav-item">
+                                    <button class="nav-link pt-1 pb-1 pointer"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#AddingaSection">Adding a Section</button>
+                                </li>
+                                                            <li class="nav-item">
+                                    <button class="nav-link pt-1 pb-1 pointer"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#Markdown">Markdown</button>
+                                </li>
+                                                            <li class="nav-item">
+                                    <button class="nav-link pt-1 pb-1 pointer"
+                                            data-bs-toggle="tab"
+                                            data-bs-target="#SyntaxHighlighting">Syntax Highlighting</button>
+                                </li>
                                                                         </ul>
                 </div>
             </nav>
@@ -87,10 +105,14 @@ similar to documentation for Bootstrap.</p>
                             </section>
                                                     <section class="tab-pane fade" id="Setup">
                                 <div class="container">
-                                    <h1>Setup</h1>
+                                    <h2>Setup</h2>
 <p>To create a new Projinom set of documentation, run the following command:</p>
 <pre><code class="language-bash">./vendor/bin/projinom init &lt;destination&gt;</code></pre>
 <p>Follow instructions on screen.</p>
+<h2>Initial Files</h2>
+<p>Upon completion of the init command, a directory located at the <code>&lt;destination&gt;</code> will
+now contain a file structure with markdown files, some configuration <code>.php</code> files,
+and a copy of the Twig based template for generating the <code>.html</code> output.</p>
                                 </div>
                             </section>
                                                     <section class="tab-pane fade" id="Configuration">
@@ -135,7 +157,58 @@ easier to maintain. This also allows for programmatic generation of the data str
     ]
 ];</code></pre>
 <p>Each element in a <code>pages</code> array also corresponds to a markdown file,
-e.g. <code>Breakfast</code> will tell Projinom to look for a <code>Breakfast.md</code>. </p>
+e.g. <code>Breakfast</code> will tell Projinom to look for a file named <code>Breakfast.md</code>. </p>
+                                </div>
+                            </section>
+                                                                                                <section class="tab-pane fade" id="AddingaSection">
+                                <div class="container">
+                                    <h2>Adding a Section</h2>
+<p>Adding a section to your documentation is simple:</p>
+<h3>Create a file</h3>
+<p>Create a file with the markdown extension, e.g. <code>Adding a Section.md</code></p>
+<h3>Update index.php</h3>
+<p>Add the name of the file (without the extension) to the <code>index.php</code> of the version you are working in.</p>
+<p>Before:</p>
+<pre><code class="language-php">'pages' =&gt; [
+    'Apple',
+    'Orange',
+]</code></pre>
+<p>After:</p>
+<pre><code class="language-php">'pages' =&gt; [
+    'Apple',
+    'Orange',
+    'Adding a Section'
+]</code></pre>
+<p>Once this is done, rebuild the project and the new content will show up.</p>
+                                </div>
+                            </section>
+                                                    <section class="tab-pane fade" id="Markdown">
+                                <div class="container">
+                                    <h2>Markdown</h2>
+<p>Projinom uses <a href="https://parsedown.org">Parsedown</a> as its Markdown parser.</p>
+<p>This means you can write Projinom documentation using the full gamut of the Markdown syntax.
+See the official <a href="https://parsedown.org/tests/">Parsedown tests list</a> for examples.</p>
+                                </div>
+                            </section>
+                                                    <section class="tab-pane fade" id="SyntaxHighlighting">
+                                <div class="container">
+                                    <h2>Syntax Highlighting</h2>
+<p>Projinom uses <a href="https://prismjs.com">Prism</a> as its syntax highlighter, with the following languages available by default:</p>
+<ul>
+<li><strong>PHP</strong></li>
+<li>Bash</li>
+<li>Javascript</li>
+<li>Typescript</li>
+</ul>
+<h2>Usage</h2>
+<p>In order to syntax highlight a block of code, simply use standard markdown syntax for code blocks,
+and make sure to specify which language it's in.</p>
+<p>For example:</p>
+<pre><code class="language-php">&lt;?php echo "Hello, World!";</code></pre>
+<p>can be generated by:</p>
+<pre><code>&gt; ```php
+&gt; &lt;?php echo "Hello, World!";
+&gt; ```</code></pre>
                                 </div>
                             </section>
                                                             </div>
