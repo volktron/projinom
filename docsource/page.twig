@@ -70,7 +70,7 @@
                                 <li class="nav-item">
                                     <button class="nav-link pt-1 pb-1 pointer"
                                             data-bs-toggle="tab"
-                                            data-bs-target="#{{ page }}">{{ page }}</button>
+                                            data-bs-target="#{{ page|replace({' ': ''}) }}">{{ page }}</button>
                                 </li>
                             {% endfor %}
                         {% endfor %}
@@ -84,7 +84,7 @@
                 <div class="tab-content mt-3">
                     {% for section in versionConfig.directory %}
                         {% for page in section.pages %}
-                            <section class="tab-pane fade" id="{{ page }}">
+                            <section class="tab-pane fade" id="{{ page|replace({' ': ''}) }}">
                                 <div class="container">
                                     {{ section.pageContent[page]|raw }}
                                 </div>
